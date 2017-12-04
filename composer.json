@@ -24,5 +24,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.1"
+    },
+    "scripts": {
+        "test": "./vendor/phpunit/phpunit/phpunit --dont-report-useless-tests",
+        "test-cover": "./vendor/phpunit/phpunit/phpunit --dont-report-useless-tests --coverage-html ./build/cover"
     }
 }

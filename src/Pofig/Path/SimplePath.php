@@ -3,9 +3,10 @@ namespace Pofig\Path;
 
 
 use Pofig\IConfigLoader;
+use Pofig\IConfigPath;
 
 
-class SimplePath implements IConfigLoader 
+class SimplePath implements IConfigPath 
 {
 	/** @var array */
 	private $separators;
@@ -21,12 +22,12 @@ class SimplePath implements IConfigLoader
 	}
 	
 	/**
-	 * @param string $path
-	 * @return array|null
+	 * @param string $configName
+	 * @return string[]|null
 	 */
-	public function load(string $path): ?array
+	public function getFilePath(string $configName): ?array
 	{
-		$path = str_replace($this->separators, DIRECTORY_SEPARATOR, $path);
+		$path = str_replace($this->separators, DIRECTORY_SEPARATOR, $configName);
 		$result = [];
 		
 		foreach ($this->types as $type)

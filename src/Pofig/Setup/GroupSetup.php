@@ -1,10 +1,12 @@
 <?php
-namespace Pofig;
+namespace Pofig\Setup;
 
 
+use Pofig\IConfigPath;
+use Pofig\IConfigLoader;
 use Pofig\Base\ISetup;
-use Pofig\Path\SimplePath;
 use Pofig\Base\IGroupSetup;
+use Pofig\Path\SimplePath;
 
 
 class GroupSetup implements IGroupSetup
@@ -30,7 +32,7 @@ class GroupSetup implements IGroupSetup
 	
 	public function addSimplePath(array $types, array $separators = ['.', '/', '\\']): ISetup
 	{
-		$this->pathResolve = new SimplePath($types, $separators);
+		$this->pathResolve[] = new SimplePath($types, $separators);
 		return $this;
 	}
 	
@@ -94,7 +96,6 @@ class GroupSetup implements IGroupSetup
 		return $this;
 	}
 	
-	
 	public function getPathFor(string $configName): array 
 	{
 		$names = [];
@@ -121,17 +122,22 @@ class GroupSetup implements IGroupSetup
 	 */
 	public function getLoadersFor(string $fileType): array
 	{
+		$typedLoaders = $this->loaderPerType[$fileType] ?? [];
+			
+		if (!is_array($typedLoaders))
+			$typedLoaders = [$typedLoaders];
+		
 		if (!$this->loaders)
 		{
-			return $this->loaderPerType[$fileType] ?? [];
+			return $typedLoaders;
 		}
-		else if (!isset($this->loaderPerType[$fileType]))
+		else if (!$typedLoaders)
 		{
 			return $this->loaders;
 		}
 		else
 		{
-			return array_merge($this->loaderPerType, $this->loaders);
+			return array_merge($typedLoaders, $this->loaders);
 		}
 	}
 }

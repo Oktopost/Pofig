@@ -5,6 +5,8 @@ namespace Pofig;
 use Pofig\Base\IEngine;
 use Pofig\Base\IMainSetup;
 use Pofig\Exceptions\PofigException;
+use Pofig\Setup\GroupSetup;
+use Pofig\Setup\MainSetup;
 
 
 class Engine implements IEngine
@@ -109,6 +111,9 @@ class Engine implements IEngine
 		foreach ($this->setup->getGroups() as $group)
 		{
 			$res = $this->tryLoadGroup($group, $configName, $files);
+			
+			if (is_null($res))
+				continue;
 			
 			$merged = is_null($merged) ? 
 				$res : 

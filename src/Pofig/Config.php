@@ -2,11 +2,13 @@
 namespace Pofig;
 
 
+use Pofig\Base\ISetup;
 use Pofig\Base\IConfig;
 use Pofig\Base\IMainSetup;
 use Pofig\Base\IConfigObject;
-
+use Pofig\Exceptions\PofigException;
 use Pofig\Objects\ReferenceConfigObject;
+
 use Structura\Map;
 
 
@@ -68,6 +70,11 @@ class Config implements IConfig
 		return $config;
 	}
 	
+	public function clearCache(): void
+	{
+		$this->cache->clear();
+	}
+	
 	/**
 	 * Don't return the cached configuration.
 	 * @return array
@@ -77,10 +84,5 @@ class Config implements IConfig
 		return [
 			'setup' => $this->setup
 		];
-	}
-	
-	public function clearCache(): void
-	{
-		$this->cache->clear();
 	}
 }

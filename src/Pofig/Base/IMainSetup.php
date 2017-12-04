@@ -15,4 +15,10 @@ interface IMainSetup extends ISetup
 	 * @return IMainSetup|static
 	 */
 	public function addParser(string $type, IConfigParser $parser): IMainSetup;
+	
+	/**
+	 * @param string[] ...$types
+	 * @return IMainSetup|static
+	 */
+	public function addStandardLoaders(string ...$types): IMainSetup;
 }

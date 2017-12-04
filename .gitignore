@@ -10,5 +10,8 @@
 # Composer
 /vendor/
 
+# Build files
+/build/*
+
 # Test objects
 /test.php

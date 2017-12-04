@@ -1,14 +1,26 @@
 <?php
-namespace Pofig;
+namespace Pofig\Setup;
 
 
 use Pofig\Base\ISetup;
 use Pofig\Base\IMainSetup;
 use Pofig\Base\IGroupSetup;
+use Pofig\Exceptions\PofigException;
+
+use Pofig\IConfigPath;
+use Pofig\IConfigLoader;
+use Pofig\IConfigParser;
 
 
 class MainSetup implements IMainSetup
 {
+	private const STANDARD_TYPES = [
+		'ini'	=> \Pofig\Loaders\IniLoader::class,
+		'php'	=> \Pofig\Loaders\PHPLoader::class,
+		'json'	=> \Pofig\Loaders\JsonLoader::class
+	];
+	
+	
 	/** @var GroupSetup[] */
 	private $groups = [];
 	
@@ -74,6 +86,26 @@ class MainSetup implements IMainSetup
 	public function addParser(string $type, IConfigParser $parser): IMainSetup
 	{
 		$this->parsers[$type] = $parser;
+		return $this;
+	}
+
+	/**
+	 * @param string[] ...$types
+	 * @return IMainSetup|static
+	 */
+	public function addStandardLoaders(string ...$types): IMainSetup
+	{
+		foreach ($types as $type)
+		{
+			if (!isset(self::STANDARD_TYPES[$type]))
+				throw new PofigException("The type '$type' is not standard");
+			
+			$className = self::STANDARD_TYPES[$type];
+			$this->addLoaderForType($type, new $className);
+		}
+		
+		$this->addSimplePath($types);
+		
 		return $this;
 	}
 	

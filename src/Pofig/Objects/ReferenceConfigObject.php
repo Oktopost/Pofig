@@ -28,7 +28,9 @@ class ReferenceConfigObject
 		if (!isset($this->source[$name]))
 			throw new MissingConfigPropertyException($name);
 		
-		if (is_array($this->source[$name]) && !isset($this->source[$name][0]))
+		$value = $this->source[$name];
+		
+		if (is_array($value) && $value && !isset($value[0]))
 		{
 			$object = new ReferenceConfigObject($this->source[$name]);
 			$this->cache[$name] = $object;
@@ -36,9 +38,8 @@ class ReferenceConfigObject
 		}
 		else
 		{
-			$object = $this->source[$name];
-			$this->cache[$name] = $object;
-			return $object;
+			$this->cache[$name] = $value;
+			return $value;
 		}
 	}
 	

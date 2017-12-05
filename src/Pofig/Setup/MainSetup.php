@@ -120,7 +120,7 @@ class MainSetup implements IMainSetup
 	 */
 	public function getGroups(): array
 	{
-		return $this->groups;
+		return array_values($this->groups);
 	}
 	
 	public function getParserFor(string $type): ?IConfigParser

@@ -21,6 +21,5 @@ class IniLoaderTest extends TestCase
 				]
 			],
 			$res);
-		
 	}
 }

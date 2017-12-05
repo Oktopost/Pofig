@@ -17,6 +17,7 @@ class IniLoader implements IConfigLoader
 		$this->flags = $flags;
 	}
 	
+	
 	public function doLoadSection(?bool $loadSections = null): bool
 	{
 		if (!is_null($loadSections))

@@ -48,6 +48,11 @@ class ReferenceConfigObject
 		throw new PofigException('Set is forbidden on ' . static::class);
 	}
 	
+	public function toArray()
+	{
+		return $this->source;
+	}
+	
 	
 	public function __debugInfo()
 	{

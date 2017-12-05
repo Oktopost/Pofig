@@ -80,6 +80,13 @@ class ReferenceConfigObjectTest extends TestCase
 		self::assertSame($subject->a, $subject->a);
 	}
 	
+	public function test_toArray_ConfigReturned()
+	{
+		$subject = new ReferenceConfigObject(['a' => ['b' => 'c']]);
+		self::assertEquals(['a' => ['b' => 'c']], $subject->toArray());
+	}
+	
+	
 	public function test_debugInfoReturnsSource()
 	{
 		$source = ['a' => ['b' => 'c']];

@@ -34,7 +34,7 @@ class ConfigObject implements IConfigObject
 		
 		if (is_array($this->config[$name]) && !isset($this->config[$name][0]))
 		{
-			return new ReferenceConfigObject($this->config);
+			return new ReferenceConfigObject($this->config[$name]);
 		}
 		else
 		{

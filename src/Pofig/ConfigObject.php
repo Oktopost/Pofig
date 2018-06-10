@@ -52,6 +52,11 @@ class ConfigObject implements IConfigObject
 		throw new PofigException('Set operation is forbidden on ConfigObject');
 	}
 	
+	public function __isset($name)
+	{
+		return isset($this->config[$name]);
+	}
+	
 	/**
 	 * @param string[] $with
 	 * @return IConfigObject|static

@@ -43,6 +43,11 @@ class ReferenceConfigObject
 		}
 	}
 	
+	public function __isset($name)
+	{
+		return isset($this->source[$name]);
+	}
+	
 	public function __set($name, $value)
 	{
 		throw new PofigException('Set is forbidden on ' . static::class);

@@ -93,4 +93,18 @@ class ReferenceConfigObjectTest extends TestCase
 		$subject = new ReferenceConfigObject($source);
 		self::assertEquals($source, $subject->__debugInfo());
 	}
+	
+	public function test_isset_noProperty_GotFalse()
+	{
+		$source = [];
+		$subject = new ReferenceConfigObject($source);
+		self::assertFalse(isset($subject->a));
+	}
+	
+	public function test_isset_propertyExists_GotTrue()
+	{
+		$source = ['a' => 'b'];
+		$subject = new ReferenceConfigObject($source);
+		self::assertTrue(isset($subject->a));
+	}
 }

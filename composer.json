@@ -15,7 +15,7 @@
         "oktopost/objection": "^1.0",
         "oktopost/annotation": "^1.0",
         "predis/predis": "^1.1",
-        "unstable-cacao/structura": "^1.0"
+        "unstable-cacao/structura": "^2.0.2"
     },
     "autoload": {
         "psr-4": {

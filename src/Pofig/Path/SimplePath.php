@@ -2,7 +2,6 @@
 namespace Pofig\Path;
 
 
-use Pofig\IConfigLoader;
 use Pofig\IConfigPath;
 
 

@@ -1,15 +1,19 @@
-<phpunit bootstrap="tests/boot.php">
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src/</directory>
-        </whitelist>
-    </filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/boot.php">
     <testsuites>
         <testsuite name="Pofig">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
-    <logging>
-         <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
+    <source>
+        <include>
+            <directory suffix=".php">./src/</directory>
+        </include>
+    </source>
+    <coverage>
+        <report>
+            <clover outputFile="build/logs/clover.xml"/>
+        </report>
+    </coverage>
 </phpunit>

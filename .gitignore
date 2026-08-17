@@ -9,9 +9,11 @@
 
 # Composer
 /vendor/
+/composer.lock
 
 # Build files
 /build/*
+/.phpunit.result.cache
 
 # Test objects
 /test.php

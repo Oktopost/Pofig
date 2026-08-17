@@ -2,11 +2,9 @@
 namespace Pofig;
 
 
-use Pofig\Base\ISetup;
 use Pofig\Base\IConfig;
 use Pofig\Base\IMainSetup;
 use Pofig\Base\IConfigObject;
-use Pofig\Exceptions\PofigException;
 use Pofig\Objects\ReferenceConfigObject;
 
 use Structura\Map;
@@ -24,8 +22,8 @@ class Config implements IConfig
 	private $setup;
 	
 	
-	private function __sleep() {}
-	private function __wakeup() {}
+	public function __sleep() {}
+	public function __wakeup() {}
 	
 	
 	public function __construct()

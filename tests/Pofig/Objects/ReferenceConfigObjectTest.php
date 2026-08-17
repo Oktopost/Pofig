@@ -3,24 +3,23 @@ namespace Pofig\Objects;
 
 
 use PHPUnit\Framework\TestCase;
+use Pofig\Exceptions\PofigException;
 
 
 class ReferenceConfigObjectTest extends TestCase
 {
-	/**
-	 * @expectedException \Pofig\Exceptions\PofigException
-	 */
-	public function test_set_ExceptionThrown()	
+	public function test_set_ExceptionThrown()
 	{
+		$this->expectException(PofigException::class);
+
 		$subject = new ReferenceConfigObject([]);
 		$subject->A = 2;
 	}
-	
-	/**
-	 * @expectedException \Pofig\Exceptions\PofigException
-	 */
-	public function test_get_ValueNotPresent_ExceptionThrown()	
+
+	public function test_get_ValueNotPresent_ExceptionThrown()
 	{
+		$this->expectException(PofigException::class);
+
 		$subject = new ReferenceConfigObject([]);
 		$a = $subject->A;
 	}

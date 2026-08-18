@@ -1,20 +1,21 @@
 {
     "name": "oktopost/pofig",
-    "description": "Messaging library",
-    "type": "lib",
+    "description": "Configuration library",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Alexey Puchkov",
             "email": "alexey@oktopost.com"
-        }
-    ],
+        },
+		{
+			"name": "Roman Azarov",
+			"email": "azarovroman@gmail.com"
+		}
+	],
     "minimum-stability": "stable",
     "require": {
-        "oktopost/skeleton": "^2.0",
         "oktopost/objection": "^2.0",
-        "oktopost/annotation": "^1.0",
-        "predis/predis": "^1.1",
         "oktopost/structura": "^3.0"
     },
     "autoload": {

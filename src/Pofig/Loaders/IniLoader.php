@@ -3,6 +3,7 @@ namespace Pofig\Loaders;
 
 
 use Pofig\IConfigLoader;
+use Pofig\Exceptions\ConfigFileException;
 
 
 class IniLoader implements IConfigLoader
@@ -37,6 +38,11 @@ class IniLoader implements IConfigLoader
 	
 	public function load(string $path): ?array
 	{
-		return parse_ini_file($path, $this->loadSections, $this->flags);
+		$config = @parse_ini_file($path, $this->loadSections, $this->flags);
+		
+		if ($config === false)
+			throw new ConfigFileException($path);
+		
+		return $config;
 	}
 }

@@ -4,6 +4,7 @@ namespace Pofig\Objects;
 
 use PHPUnit\Framework\TestCase;
 use Pofig\Exceptions\PofigException;
+use Pofig\Exceptions\MissingConfigPropertyException;
 
 
 class ReferenceConfigObjectTest extends TestCase
@@ -105,5 +106,32 @@ class ReferenceConfigObjectTest extends TestCase
 		$source = ['a' => 'b'];
 		$subject = new ReferenceConfigObject($source);
 		self::assertTrue(isset($subject->a));
+	}
+	
+	public function test_get_ValueNotPresent_MissingPropertyNameSet()
+	{
+		$subject = new ReferenceConfigObject([]);
+		
+		try
+		{
+			$a = $subject->abc;
+			self::fail('Expected ' . MissingConfigPropertyException::class);
+		}
+		catch (MissingConfigPropertyException $e)
+		{
+			self::assertSame('abc', $e->getMissingPropertyName());
+		}
+	}
+	
+	public function test_get_NullValue_NullReturned()
+	{
+		$subject = new ReferenceConfigObject(['a' => null]);
+		self::assertNull($subject->a);
+	}
+	
+	public function test_isset_NullValue_GotFalse()
+	{
+		$subject = new ReferenceConfigObject(['a' => null]);
+		self::assertFalse(isset($subject->a));
 	}
 }

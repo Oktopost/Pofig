@@ -56,8 +56,8 @@ class LiteObjectParserTest extends TestCase
 	
 	public function test_parse_MapperSet_MapperResultInvoked()
 	{
-		$mapper = $this->getMockBuilder(Mapper::class)->disableOriginalConstructor()->getMock();
-		
+		$mapper = $this->createStub(Mapper::class);
+
 		$mapper
 			->method('getObject')
 			->willReturn('abc');

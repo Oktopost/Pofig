@@ -15,6 +15,7 @@
 	],
     "minimum-stability": "stable",
     "require": {
+        "php": ">=8.5",
         "oktopost/objection": "^2.0",
         "oktopost/structura": "^3.0"
     },
@@ -24,10 +25,14 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^11.0"
+        "phpunit/phpunit": "^13.0"
     },
     "scripts": {
         "test": "./vendor/phpunit/phpunit/phpunit",
+        "test-coverage": [
+            "./vendor/phpunit/phpunit/phpunit --coverage-clover build/logs/clover.xml",
+            "php scripts/check-coverage.php build/logs/clover.xml 100"
+        ],
         "test-cover": "./vendor/phpunit/phpunit/phpunit --coverage-html ./build/cover"
     }
 }

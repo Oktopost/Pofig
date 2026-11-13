@@ -3,6 +3,7 @@ namespace Pofig\Loaders;
 
 
 use Pofig\Exceptions\PofigException;
+use Pofig\Exceptions\ConfigFileException;
 use Pofig\IConfigLoader;
 
 
@@ -38,7 +39,7 @@ class HierarchicalIniLoader implements IConfigLoader
 		}
 		else
 		{
-			list ($key, $reminder) = explode('.', $key, 2);
+			list ($key, $reminder) = explode($this->keyDelimiter, $key, 2);
 			
 			if (isset($target[$key]))
 			{
@@ -89,7 +90,11 @@ class HierarchicalIniLoader implements IConfigLoader
 	
 	public function load(string $path): ?array
 	{
-		$config = parse_ini_file($path, $this->loadSections, $this->flags);
+		$config = @parse_ini_file($path, $this->loadSections, $this->flags);
+		
+		if ($config === false)
+			throw new ConfigFileException($path);
+		
 		$result = [];
 		
 		foreach ($config as $key => $value)

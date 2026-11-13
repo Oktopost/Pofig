@@ -32,13 +32,15 @@ class ConfigObject implements IConfigObject
 		if (!isset($this->config[$name]))
 			return null;
 		
-		if (is_array($this->config[$name]) && !isset($this->config[$name][0]))
+		$value = $this->config[$name];
+		
+		if (is_array($value) && $value && !isset($value[0]))
 		{
-			return new ReferenceConfigObject($this->config[$name]);
+			return new ReferenceConfigObject($value);
 		}
 		else
 		{
-			return $this->config[$name];
+			return $value;
 		}
 	}
 	

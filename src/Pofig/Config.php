@@ -6,6 +6,7 @@ use Pofig\Base\IConfig;
 use Pofig\Base\IMainSetup;
 use Pofig\Base\IConfigObject;
 use Pofig\Objects\ReferenceConfigObject;
+use Pofig\Exceptions\PofigException;
 
 use Structura\Map;
 
@@ -22,8 +23,15 @@ class Config implements IConfig
 	private $setup;
 	
 	
-	public function __sleep() {}
-	public function __wakeup() {}
+	public function __serialize(): array
+	{
+		throw new PofigException('Config can not be serialized');
+	}
+	
+	public function __unserialize(array $data): void
+	{
+		throw new PofigException('Config can not be unserialized');
+	}
 	
 	
 	public function __construct()

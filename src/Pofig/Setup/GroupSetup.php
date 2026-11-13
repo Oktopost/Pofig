@@ -26,7 +26,7 @@ class GroupSetup implements IGroupSetup
 	
 	public function addPathResolver(IConfigPath ...$path): ISetup
 	{
-		$this->pathResolve[] = array_merge($this->pathResolve, $path);
+		$this->pathResolve = array_merge($this->pathResolve, $path);
 		return $this;
 	}
 	
@@ -40,9 +40,9 @@ class GroupSetup implements IGroupSetup
 	{
 		foreach ($loaders as $loader)
 		{
-			if (!is_array($loader))
+			if ($loader instanceof IConfigLoader)
 			{
-				$this->loaders = array_merge($this->loaders, $loader);
+				$this->loaders[] = $loader;
 			}
 			else if (isset($loader[0]))
 			{
@@ -50,10 +50,13 @@ class GroupSetup implements IGroupSetup
 			}
 			else
 			{
-				$this->loaderPerType = array_merge(
-					$this->loaderPerType,
-					$loader
-				);
+				foreach ($loader as $type => $typeLoaders)
+				{
+					foreach (is_array($typeLoaders) ? $typeLoaders : [$typeLoaders] as $typeLoader)
+					{
+						$this->addLoaderForType($type, $typeLoader);
+					}
+				}
 			}
 		}
 		
@@ -83,11 +86,9 @@ class GroupSetup implements IGroupSetup
 	{
 		foreach ($paths as $path)
 		{
-			$length = strlen($path);
-			
-			if ($path[$length - 1] == DIRECTORY_SEPARATOR)
+			if (str_ends_with($path, DIRECTORY_SEPARATOR))
 			{
-				$path = substr($path, 0, $length - 1);
+				$path = substr($path, 0, -1);
 			}
 			
 			$this->includePath[] = $path;
@@ -123,9 +124,6 @@ class GroupSetup implements IGroupSetup
 	public function getLoadersFor(string $fileType): array
 	{
 		$typedLoaders = $this->loaderPerType[$fileType] ?? [];
-			
-		if (!is_array($typedLoaders))
-			$typedLoaders = [$typedLoaders];
 		
 		if (!$this->loaders)
 		{

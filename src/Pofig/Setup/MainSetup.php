@@ -128,11 +128,9 @@ class MainSetup implements IMainSetup
 		if (isset($this->parsers[$type]))
 			return $this->parsers[$type];
 		
-		$reflection = new \ReflectionClass($type);
-		
 		foreach ($this->parsers as $key => $parser)
 		{
-			if ($reflection->isSubclassOf($key) || $reflection->implementsInterface($key))
+			if (is_a($type, $key, true))
 			{
 				$this->parsers[$type] = $this->parsers[$key];
 				return $this->parsers[$type];

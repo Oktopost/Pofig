@@ -9,6 +9,7 @@ class MissingConfigPropertyException extends PofigException
 	
 	public function __construct(string $name)
 	{
+		$this->name = $name;
 		parent::__construct("Property $name not found in the configuration data set", 1);
 	}
 	

@@ -1,0 +1,4 @@
+# Code owners are requested for review on every pull request that touches their paths, Dependabot's included.
+# A team must be visible and have write access to this repository itself, or GitHub requests no one.
+
+/.github/ @Oktopost/dev-leads

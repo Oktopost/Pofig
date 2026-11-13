@@ -21,7 +21,7 @@ class MainSetup implements IMainSetup
 	];
 	
 	
-	/** @var GroupSetup[] */
+	/** @var GroupSetup[]|ArrayGroupSetup[] Group name => group, in order of first registration */
 	private $groups = [];
 	
 	/** @var GroupSetup */
@@ -46,7 +46,24 @@ class MainSetup implements IMainSetup
 			return $group;
 		}
 		
+		if ($this->groups[$name] instanceof ArrayGroupSetup)
+			throw new PofigException("The group '$name' is already registered as an array group");
+		
 		return $this->groups[$name];
+	}
+	
+	/**
+	 * @param string $name
+	 * @param array $configs Config name => config array
+	 * @return IMainSetup|static
+	 */
+	public function arrayGroup(string $name, array $configs): IMainSetup
+	{
+		if (isset($this->groups[$name]))
+			throw new PofigException("The group '$name' is already registered");
+		
+		$this->groups[$name] = new ArrayGroupSetup($configs);
+		return $this;
 	}
 	
 	public function addPathResolver(IConfigPath ...$path): ISetup
@@ -116,7 +133,7 @@ class MainSetup implements IMainSetup
 	}
 	
 	/**
-	 * @return GroupSetup[]
+	 * @return GroupSetup[]|ArrayGroupSetup[] In order of first registration
 	 */
 	public function getGroups(): array
 	{

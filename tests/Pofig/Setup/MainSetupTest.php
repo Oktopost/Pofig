@@ -54,6 +54,92 @@ class MainSetupTest extends TestCase
 	}
 	
 	
+	public function test_arrayGroup_SameSetupReturned()
+	{
+		$subject = new MainSetup();
+		self::assertSame($subject, $subject->arrayGroup('a', []));
+	}
+	
+	public function test_arrayGroup_ArrayGroupAddedToGroups()
+	{
+		$subject = new MainSetup();
+		$subject->arrayGroup('a', ['x' => ['y' => 1]]);
+		
+		$groups = $subject->getGroups();
+		
+		self::assertCount(1, $groups);
+		self::assertInstanceOf(ArrayGroupSetup::class, $groups[0]);
+		self::assertSame(['y' => 1], $groups[0]->get('x'));
+	}
+	
+	public function test_arrayGroup_OrderIsDefinedByRegistration()
+	{
+		$subject = new MainSetup();
+		
+		$a = $subject->group('a');
+		$subject->arrayGroup('b', []);
+		$c = $subject->group('c');
+		$subject->group('a');
+		
+		$groups = $subject->getGroups();
+		
+		self::assertCount(3, $groups);
+		self::assertSame($a, $groups[0]);
+		self::assertInstanceOf(ArrayGroupSetup::class, $groups[1]);
+		self::assertSame($c, $groups[2]);
+	}
+	
+	public function test_arrayGroup_InvalidConfigs_ExceptionThrown()
+	{
+		$this->expectException(PofigException::class);
+		
+		(new MainSetup())->arrayGroup('a', ['x' => 'y']);
+	}
+	
+	public function test_arrayGroup_InvalidConfigs_GroupNotRegistered()
+	{
+		$subject = new MainSetup();
+		
+		try
+		{
+			$subject->arrayGroup('a', ['x' => 'y']);
+		}
+		catch (PofigException $e) {}
+		
+		self::assertSame([], $subject->getGroups());
+	}
+	
+	public function test_arrayGroup_NameUsedByFileGroup_ExceptionThrown()
+	{
+		$this->expectException(PofigException::class);
+		$this->expectExceptionMessage("The group 'prod' is already registered");
+		
+		$subject = new MainSetup();
+		$subject->group('prod');
+		$subject->arrayGroup('prod', []);
+	}
+	
+	public function test_arrayGroup_NameUsedByArrayGroup_ExceptionThrown()
+	{
+		$this->expectException(PofigException::class);
+		$this->expectExceptionMessage("The group 'prod' is already registered");
+		
+		$subject = new MainSetup();
+		$subject->arrayGroup('prod', []);
+		$subject->arrayGroup('prod', []);
+	}
+	
+	public function test_group_NameUsedByArrayGroup_ExceptionThrown()
+	{
+		$this->expectException(PofigException::class);
+		$this->expectExceptionMessage("The group 'prod' is already registered as an array group");
+		
+		$subject = new MainSetup();
+		$subject->arrayGroup('prod', []);
+		$subject->group('prod');
+	}
+	
+	
 	public function test_groups_NoGroupsCreated_ReturnEmptyArray()
 	{
 		$subject = new MainSetup();
